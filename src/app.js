@@ -21,18 +21,23 @@ function validateProjectId(request,response,next){
 }
 
 
-app.get("/repositories",validateProjectId, (request, response) => {
+app.get("/repositories", (request, response) => {
   
   return response.json(repositories)
 
 });
 
-app.post("/repositories",validateProjectId, (request, response) => {
+app.post("/repositories", (request, response) => {
   
   const {title, url, techs} = request.body
-  const repository = {id: uuid(), title, url,techs: techs.split(", "),likes: likes = 0 }
 
+  const repository = {id: uuid(), url,title, techs,likes: 0 }
+
+  
   repositories.push(repository)
+  
+  
+
   return response.json(repository)
 });
 
@@ -52,7 +57,7 @@ app.put("/repositories/:id",validateProjectId, (request, response) => {
       title,
       url,
       techs,
-      likes
+      likes: repositories[repositoryIndex].likes
   }
 
   repositories[repositoryIndex] = repository
@@ -77,18 +82,10 @@ app.post("/repositories/:id/like",validateProjectId, (request, response) => {
  
   const { id } = request.params
 
-  const repositoryIndex = repositories.findIndex(repository => repository.id === id)
+  const repository = repositories.find(repository => repository.id === id)
 
-  // if(repositoryIndex < 0){
-  //     return response.status(400).json({error: 'repository not found'})
-  // }
-
-  const repository = {
-      url: repositories[repositoryIndex].url,
-      likes: repositories[repositoryIndex].likes++
-  }
-
-  // repositories[repositoryIndex] = repository
+  
+  repository.likes++
 
   return response.json(repository)
 
