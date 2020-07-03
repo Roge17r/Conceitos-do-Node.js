@@ -19,7 +19,7 @@ describe("Repositories", () => {
       title: "Umbriel",
       techs: ["Node", "Express", "TypeScript"],
       likes: 0
-    });
+    }); 
   });
 
   it("should be able to list the repositories", async () => {
